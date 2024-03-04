@@ -1,0 +1,31 @@
+﻿@page "/"
+@inject HttpClient Http
+
+<h3>Items</h3>
+
+@if (items == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    foreach (var item in items)
+    {
+        <p>@item.Name</p>
+    }
+}
+
+@code {
+    private Item[] items;
+
+    protected override async Task OnInitializedAsync()
+    {
+        items = await Http.GetFromJsonAsync<Item[]>("items");
+    }
+
+    public class Item
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
+}
